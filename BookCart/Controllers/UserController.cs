@@ -41,5 +41,13 @@ namespace BookCart.Controllers
             }
             return View(user);
         }
+
+        [Route("{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var roles = await _ctx.Roles.ToListAsync();
+            ViewBag.Roles = roles;
+            return View();
+        }
     }
 }
