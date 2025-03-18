@@ -31,8 +31,13 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">DataTable with minimal features & hover style</h3>
-                        <a asp-action="Create">Create New</a>
+                        @* <h3 class="card-title">DataTable with minimal features & hover style</h3> *@
+                        <a class="btn btn-primary btn-sm float-right" 
+                            asp-action="Create">
+                            <i class="fas fa-user">
+                            </i>
+                            Create New
+                        </a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -44,6 +49,7 @@
                                     <th>Fullname</th>
                                     <th>Phone</th>
                                     <th>Role</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,18 +61,38 @@
                                         <td>@item.Fullname</td>
                                         <td>@item.Phone</td>
                                         <td>@item.Role!.Name</td>
+                                        <td>
+                                            <a class="btn btn-info btn-sm" 
+                                            asp-action="Edit" 
+                                            asp-route-id="@item.Id">
+                                                <i class="fas fa-pencil-alt">
+                                                </i>
+                                                Edit
+                                            </a>
+                                            <form asp-action="Delete" 
+                                                class="d-inline"
+                                                asp-route-id="@item.Id" 
+                                                method="post">
+                                                <button class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </button>
+                                            </form>
+                                            
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
-                                </tr>
-                            </tfoot>
+                            @* <tfoot> *@
+                            @*     <tr> *@
+                            @*         <th>Rendering engine</th> *@
+                            @*         <th>Browser</th> *@
+                            @*         <th>Platform(s)</th> *@
+                            @*         <th>Engine version</th> *@
+                            @*         <th>CSS grade</th> *@
+                            @*     </tr> *@
+                            @* </tfoot> *@
                         </table>
                     </div>
                     <!-- /.card-body -->

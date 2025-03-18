@@ -1,6 +1,7 @@
 ﻿using BookCart.Data;
 using BookCart.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookCart.Controllers
@@ -23,10 +24,16 @@ namespace BookCart.Controllers
             return View(users);
         }
 
-        public async Task<IActionResult> Create()
+        async Task PopulateRoles()
         {
             var roles = await _ctx.Roles.ToListAsync();
-            ViewBag.Roles = roles;
+            var roleList = new SelectList(roles, "Id", "Name");
+            ViewBag.Roles = roleList;
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            await PopulateRoles();
             return View();
         }
 
@@ -39,15 +46,51 @@ namespace BookCart.Controllers
                 await _ctx.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
+            await PopulateRoles();
             return View(user);
         }
 
-        [Route("{id}")]
+        //[Route("{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var roles = await _ctx.Roles.ToListAsync();
-            ViewBag.Roles = roles;
-            return View();
+            await PopulateRoles();
+            var user = await _ctx.Users
+                .SingleOrDefaultAsync(u=>u.Id==id);
+            return View(user);
+        }
+
+        [HttpPost]
+        //[Route("{id}")]
+        public async Task<IActionResult> Edit(int id, User user)
+        {
+            if (ModelState.IsValid)
+            {
+                _ctx.Attach(user).State=EntityState.Modified;
+                await _ctx.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            await PopulateRoles();
+            return View(user);
+        }
+
+        [HttpPost]
+        //[Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                User? user = await _ctx.Users
+                    .SingleOrDefaultAsync(u => u.Id == id);
+                if (user != null)
+                {
+                    _ctx.Users.Remove(user);
+                    await _ctx.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
