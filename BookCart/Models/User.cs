@@ -18,5 +18,7 @@ namespace BookCart.Models
 
         [ForeignKey("RoleId")]
         public Role? Role { get; set; }
+
+        public List<Cart>? Carts { set; get; }
     }
 }
