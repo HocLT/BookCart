@@ -14,5 +14,6 @@ namespace BookCart.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartDetail> CartDetails { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

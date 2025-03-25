@@ -16,5 +16,10 @@ namespace BookCart.Models
         public decimal? PriceDiscount { get; set; }
         public string? Image { get; set; }
         public bool? Features { set; get; }
+        public string? Author { set; get; }
+
+        public int? CategoryId { set; get; }
+        [ForeignKey("CategoryId")]
+        public Category? Category { set; get; }
     }
 }
