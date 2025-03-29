@@ -193,7 +193,7 @@
                                         }
                                     </div>
                                     <div class="add_to_cart">
-                                        <a class="btn btn-primary" href="#" data-tippy="Add To Cart" data-tippy-inertia="true" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-placement="top">Add To Cart</a>
+                                        <a class="btn btn-primary" href="/fe/home/addcart/@item.Id" data-tippy="Add To Cart" data-tippy-inertia="true" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-placement="top">Add To Cart</a>
                                     </div>
                                 </div>
                                 <div class="product_list_content">
@@ -212,7 +212,9 @@
                                         <p>@item.Description</p>
                                     </div>
                                     <div class="add_to_cart">
-                                        <a class="btn btn-primary" href="#" data-tippy="Add To Cart" data-tippy-inertia="true" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-placement="top">Add To Cart</a>
+                                        <a class="btn btn-primary" href="/fe/home/addcart/@item.Id" 
+                                        data-tippy="Add To Cart" data-tippy-inertia="true" 
+                                        data-tippy-delay="50" data-tippy-arrow="true" data-tippy-placement="top">Add To Cart</a>
 
                                     </div>
                                 </div>
@@ -274,6 +276,7 @@
 
         const min = @ViewBag.PriceMin
         const max = @ViewBag.PriceMax
+
         $( "#slider-range" ).slider({
             range: true,
             min: min,

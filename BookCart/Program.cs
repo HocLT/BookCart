@@ -1,4 +1,4 @@
-using BookCart.Data;
+﻿using BookCart.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BookCartDbContext>(
     o=>o.UseSqlServer(builder.Configuration
     .GetConnectionString("BookCartConnectionString")));
+
+builder.Services.AddDistributedMemoryCache();   // lưu cache trong bộ nhớ (Session sử dụng)
+builder.Services.AddSession(cfg => {
+    cfg.Cookie.Name = "HutechAspNetCore";
+    cfg.IdleTimeout = TimeSpan.FromMinutes(60);
+});
+
+// Đăng ký IHttpContextAccessor vào container DI
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -26,6 +35,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();   // Đăng ký middleware session vào pipeline
 
 app.MapControllerRoute(
     name: "default",
