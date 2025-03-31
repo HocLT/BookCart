@@ -236,11 +236,42 @@ namespace BookCart.Areas.fe.Controllers
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreatePaymentUrl(PaymentInformation model)
         {
-            var url = await _payPalService.CreatePaymentUrl(model, HttpContext);
+            List<CartDto>? items = GetCartItems();
+            if (items != null)
+            {
+                List<CartDetail> details = new List<CartDetail>();
+                foreach (var item in items)
+                {
+                    CartDetail cartDetail = new CartDetail 
+                    {
+                        BookId = item.Item!.Id,
+                        Price = item.Item.Price,
+                        Quantity = item.Quantity,
+                    };
+                    details.Add(cartDetail);
+                }
 
-            return Redirect(url);
+                Cart cart = new Cart
+                {
+                    UserId = 1,
+                    Fullname = model.Fullname,
+                    Address = model.Address,
+                    Phone = model.Phone,
+                    //DateAt = DateTime.Now,
+                    CartDetails = details,
+                };
+
+                _ctx.Carts.Add(cart);
+                await _ctx.SaveChangesAsync();
+
+                var url = await _payPalService.CreatePaymentUrl(model, HttpContext);
+
+                return Redirect(url);
+            }
+            return RedirectToRoute("/fe/home/index");
         }
 
         public IActionResult PaymentCallback()

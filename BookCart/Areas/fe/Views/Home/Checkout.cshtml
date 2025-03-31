@@ -1,4 +1,6 @@
-﻿@using BookCart.Dto
+﻿@model BookCart.Models.PaymentInformation
+
+@using BookCart.Dto
 @using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json
 @inject IHttpContextAccessor HttpContextAccessor
@@ -92,93 +94,35 @@
             </div>
         </div>
         <div class="checkout_form">
-            <div class="row">
-                <div class="col-lg-7 col-md-6">
-                    <form action="#">
+            <form action="/fe/Home/CreatePaymentUrl" method="post">
+                <div class="row">
+                    <div class="col-lg-7 col-md-6">
+                    
                         <h3>Billing Details</h3>
+                        
                         <div class="checkout_form_input">
-                            <label for="country">country <span>*</span></label>
-                            <select class="select_option" name="cuntry" id="country">
-                                <option value="2">United Kingdom (UK)  </option>
-                                <option value="3">Algeria</option>
-                                <option value="4">Afghanistan</option>
-                                <option value="5">Ghana</option>
-                                <option value="6">Albania</option>
-                                <option value="7">Bahrain</option>
-                                <option value="8">Colombia</option>
-                                <option value="9">Dominican Republic</option>
-                            </select>
-                        </div>
-                        <div class="checkout_form_input">
-                            <label>First Name <span>*</span></label>
-                            <input type="text">
-                        </div>
-                        <div class="checkout_form_input">
-                            <label>Last Name  <span>*</span></label>
-                            <input type="text">
-                        </div>
-                        <div class="checkout_form_input">
-                            <label>Company Name</label>
-                            <input type="text">
+                            <label>Full Name <span>*</span></label>
+                            <input asp-for="Fullname">
                         </div>
                         <div class="checkout_form_input">
                             <label>Address  <span>*</span></label>
-                            <input type="text">
-                        </div>
-                        <div class="checkout_form_input">
-                            <input type="text">
-                        </div>
-                        <div class="checkout_form_input">
-                            <label>Town / City <span>*</span></label>
-                            <input type="text">
+                            <input asp-for="Address">
                         </div>
                         <div class="checkout_form_input">
                             <label> Email Address   <span>*</span></label>
-                            <input type="text">
+                            <input asp-for="Email">
                         </div>
                         <div class="checkout_form_input">
                             <label> Phone <span>*</span></label>
-                            <input type="text">
-                        </div>
-                        <p class="different_address"><i class="ion-android-checkbox-outline"></i> Ship to a different address?</p>
-                        <div class="checkout_form_input">
-                            <label for="country2">country <span>*</span></label>
-                            <select class="select_option" name="cuntry" id="country2">
-                                <option value="2">United Kingdom (UK)  </option>
-                                <option value="3">Algeria</option>
-                                <option value="4">Afghanistan</option>
-                                <option value="5">Ghana</option>
-                                <option value="6">Albania</option>
-                                <option value="7">Bahrain</option>
-                                <option value="8">Colombia</option>
-                                <option value="9">Dominican Republic</option>
-                            </select>
-                        </div>
-                        <div class="checkout_form_input">
-                            <label>First Name <span>*</span></label>
-                            <input type="text">
-                        </div>
-                        <div class="checkout_form_input">
-                            <label>Last Name  <span>*</span></label>
-                            <input type="text">
-                        </div>
-                        <div class="checkout_form_input">
-                            <label>Company Name</label>
-                            <input type="text">
-                        </div>
-                        <div class="checkout_form_input">
-                            <label>Town / City <span>*</span></label>
-                            <input type="text">
+                            <input asp-for="Phone">
                         </div>
                         <div class="checkout_form_input">
                             <label>Order Notes</label>
-                            <textarea></textarea>
+                            <textarea asp-for="Description"></textarea>
                         </div>
-                    </form>
-                </div>
-                <div class="col-lg-5 col-md-6">
-                    <div class="order_table_right">
-                        <form action="#">
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="order_table_right">
                             <h3>Your order</h3>
                             <div class="order_table table-responsive">
                                 <table>
@@ -200,7 +144,7 @@
                                                 </tr>
                                             }
                                         }
-                                        
+                                        <input type="hidden" asp-for="Amount" value="@total"/>
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -264,13 +208,12 @@
                                 </div>
                             </div>
                             <div class="place_order_btn">
-                                <a class="btn btn-primary" href="#">place order</a>
+                                <button type="submit" class="btn btn-primary">place order</button>
                             </div>
-
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

@@ -15,9 +15,9 @@ namespace BookCart.Service
             _configuration = configuration;
         }
 
-        public static double ConvertVndToDollar(double vnd)
+        public static double ConvertVndToDollar(decimal vnd)
         {
-            var total = Math.Round(vnd / ExchangeRate, 2);
+            var total = Math.Round((double)vnd / ExchangeRate, 2);
 
             return total;
         }
@@ -31,7 +31,7 @@ namespace BookCart.Service
             var client = new PayPalHttpClient(envSandbox);
             var paypalOrderId = DateTime.Now.Ticks;
             var urlCallBack = _configuration["PaymentCallBack:ReturnUrl"];
-            var payment = new PayPal.v1.Payments.Payment()
+            var payment = new Payment()
             {
                 Intent = "sale",
                 Transactions = new List<Transaction>()
@@ -55,7 +55,7 @@ namespace BookCart.Service
                             {
                                 new Item()
                                 {
-                                    Name = " | Order: " + model.OrderDescription,
+                                    Name = " | Order: " + model.Description,
                                     Currency = "USD",
                                     Price = ConvertVndToDollar(model.Amount).ToString(),
                                     Quantity = 1.ToString(),
@@ -65,7 +65,7 @@ namespace BookCart.Service
                                 }
                             }
                         },
-                        Description = $"Invoice #{model.OrderDescription}",
+                        Description = $"Invoice #{model.Description}",
                         InvoiceNumber = paypalOrderId.ToString()
                     }
                 },
@@ -104,7 +104,6 @@ namespace BookCart.Service
             }
 
             return paymentUrl;
-
         }
 
 

@@ -16,7 +16,7 @@ namespace BookCart.Models
         public string? Phone { get; set; }
         [Column(TypeName = "nvarchar(250)")]
         public string? Address { get; set; }
-        [Column(TypeName = "Timestamp")]
+        [Column(TypeName = "datetime")]
         public DateTime DateAt { get; set; } = DateTime.Now;
         [ForeignKey("UserId")]
         public User? User { set; get; }
