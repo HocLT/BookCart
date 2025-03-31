@@ -1,6 +1,7 @@
 ﻿using BookCart.Data;
 using BookCart.Dto;
 using BookCart.Models;
+using BookCart.Service;
 using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,12 @@ namespace BookCart.Areas.fe.Controllers
         public const string CARTKEY = "cart";
 
         readonly BookCartDbContext _ctx;
+        readonly IPayPalService _payPalService;
 
-        public HomeController(BookCartDbContext ctx)
+        public HomeController(BookCartDbContext ctx, IPayPalService payPalService)
         {
             _ctx = ctx;
+            _payPalService = payPalService;
         }
 
         public async Task<IActionResult> Index()
@@ -231,6 +234,20 @@ namespace BookCart.Areas.fe.Controllers
         public IActionResult Checkout()
         {
             return View();
+        }
+
+        public async Task<IActionResult> CreatePaymentUrl(PaymentInformation model)
+        {
+            var url = await _payPalService.CreatePaymentUrl(model, HttpContext);
+
+            return Redirect(url);
+        }
+
+        public IActionResult PaymentCallback()
+        {
+            var response = _payPalService.PaymentExecute(Request.Query);
+
+            return Json(response);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BookCart.Data;
+using BookCart.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,10 @@ builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//builder.Services.AddRazorPages()
+//    .AddRazorRuntimeCompilation();
+
+builder.Services.AddScoped<IPayPalService, PayPalService>();
 
 var app = builder.Build();
 
